@@ -1,6 +1,6 @@
 let products = [];
 let currentPage = 1;
-const itemsPerPage = 12;
+const itemsPerPage = 10;
 
 // Fetch products from JSON file
 async function fetchProducts() {
@@ -32,7 +32,7 @@ function renderProducts() {
             <h5>${product.name}</h5>
             <div class="price-sales"> <!-- Thêm div này để chứa giá và lượt bán -->
                 <p class="price">Giá: ${product.price}đ</p>
-                <p class="sales">Lượt bán: ${product.sales}</p>
+                <p class="sales">${product.sales} lượt bán</p>
             </div>
             <button onclick="window.open('${product.link}', '_blank')">Xem Sản Phẩm</button>
         `;
