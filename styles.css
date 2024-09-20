@@ -156,3 +156,96 @@ header {
     background-color: #ff5722;
     color: #fff;
 }
+
+/* Media Queries cho các thiết bị có kích thước lớn hơn PC (laptop) */
+@media (max-width: 1200px) {
+    .search-container {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+/* Media Queries cho tablet lớn và màn hình laptop nhỏ */
+@media (max-width: 1024px) {
+    header {
+        flex-direction: column;
+        /* Xếp header theo chiều dọc */
+        align-items: center;
+    }
+
+    .search-container {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /* Giảm kích thước thẻ sản phẩm */
+    }
+}
+
+/* Media Queries cho tablet (iPad) */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-container {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        /* Thẻ sản phẩm nhỏ hơn cho tablet */
+    }
+}
+
+/* Media Queries cho điện thoại di động (iPhone, Android) */
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-container {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #search-btn {
+        width: 100%;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        /* Giảm kích thước thẻ sản phẩm trên mobile */
+    }
+
+    .filter-menu {
+        flex-direction: column;
+    }
+
+    .filter-btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .product-card img {
+        height: 120px;
+        /* Điều chỉnh chiều cao ảnh cho phù hợp với màn hình nhỏ */
+    }
+}
