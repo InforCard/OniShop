@@ -30,7 +30,7 @@ function renderProducts() {
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h5>${product.name}</h5>
-            <div class="price-sales"> <!-- Thêm div này để chứa giá và lượt bán -->
+            <div class="price-sales">
                 <p class="price">Giá: ${product.price}đ</p>
                 <p class="sales">${product.sales} lượt bán</p>
             </div>
@@ -55,23 +55,95 @@ function renderPagination() {
     const filteredProducts = filterProducts();
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-    for (let i = 1; i <= totalPages; i++) {
+    if (totalPages <= 1) return; // Không cần hiển thị phân trang nếu chỉ có 1 trang
+
+    // Nút "prev" để quay về trang trước
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '«';
+    prevButton.disabled = currentPage === 1;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderProducts();
+            renderPagination();
+        }
+    });
+    paginationContainer.appendChild(prevButton);
+
+    const maxVisibleButtons = 3; // Số nút hiển thị giữa (ví dụ: 1 2 3 ... cuối)
+
+    // Hiển thị trang đầu tiên
+    const firstButton = document.createElement('button');
+    firstButton.textContent = '1';
+    firstButton.addEventListener('click', () => {
+        currentPage = 1;
+        renderProducts();
+        renderPagination();
+    });
+    if (currentPage === 1) {
+        firstButton.classList.add('active');
+    }
+    paginationContainer.appendChild(firstButton);
+
+    // Hiển thị "..." nếu cần thiết
+    if (currentPage > maxVisibleButtons + 1) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        paginationContainer.appendChild(dots);
+    }
+
+    // Hiển thị các nút giữa
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
         const button = document.createElement('button');
         button.textContent = i;
-
-        // Sử dụng điều kiện thêm class 'active' đúng cách
         if (i === currentPage) {
             button.classList.add('active');
         }
-
         button.addEventListener('click', () => {
             currentPage = i;
             renderProducts();
             renderPagination();
         });
-
         paginationContainer.appendChild(button);
     }
+
+    // Hiển thị "..." nếu cần thiết trước trang cuối cùng
+    if (currentPage < totalPages - maxVisibleButtons) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        paginationContainer.appendChild(dots);
+    }
+
+    // Hiển thị trang cuối cùng
+    if (totalPages > 1) {
+        const lastButton = document.createElement('button');
+        lastButton.textContent = totalPages;
+        lastButton.addEventListener('click', () => {
+            currentPage = totalPages;
+            renderProducts();
+            renderPagination();
+        });
+        if (currentPage === totalPages) {
+            lastButton.classList.add('active');
+        }
+        paginationContainer.appendChild(lastButton);
+    }
+
+    // Nút "next" để sang trang tiếp theo
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '»';
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderProducts();
+            renderPagination();
+        }
+    });
+    paginationContainer.appendChild(nextButton);
 }
 
 // Event listener for search button click
