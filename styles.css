@@ -93,21 +93,7 @@ header {
     font-weight: bold;
 }
 
-.price-sales {
-    display: flex;
-    justify-content: space-between;
-    /* Căn chỉnh khoảng cách giữa giá và lượt bán */
-    margin-top: 5px;
-    /* Khoảng cách với tiêu đề sản phẩm */
-}
 
-.price,
-.sales {
-    font-size: 14px;
-    /* Cỡ chữ nhỏ */
-
-    /* Màu đen */
-}
 
 .sales {
     font-size: 10px !important;
@@ -156,6 +142,17 @@ header {
     background-color: #ff5722;
     color: #fff;
 }
+
+.productName {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;      /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4em;         /* Có thể điều chỉnh tùy font */
+    max-height: 2.8em;          /* = line-height * số dòng */
+  }
+  
 
 /* Media Queries cho các thiết bị có kích thước lớn hơn PC (laptop) */
 @media (max-width: 1200px) {

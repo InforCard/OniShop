@@ -29,11 +29,7 @@ function renderProducts() {
         productCard.classList.add('product-card');
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
-            <h5>${product.name}</h5>
-            <div class="price-sales">
-                <p class="price">Giá: ${product.price}đ</p>
-                <p class="sales">${product.sales} lượt bán</p>
-            </div>
+            <h5 class="productName"  >${product.name}</h5>
             <button onclick="window.open('${product.link}', '_blank')">Xem Sản Phẩm</button>
         `;
         productGrid.appendChild(productCard);
