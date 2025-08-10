@@ -29,18 +29,20 @@ function renderProducts() {
         productCard.classList.add('product-card');
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
-            <h5 class="productName"  >${product.name}</h5>
-            <button onclick="window.open('${product.link}', '_blank')">Đến shopee</button>
+            <h5 class="productName">${product.name}</h5>
+            <button onclick="window.open('${product.link}', '_blank')">Đến Shopee</button>
         `;
         productGrid.appendChild(productCard);
     });
 }
 
-// Filter products based on search query
+// Filter products based on search query and category
 function filterProducts() {
     const searchValue = document.getElementById('search-input').value.toLowerCase();
+    const categoryValue = document.getElementById('category-filter').value;
     return products.filter(product =>
-        product.name.toLowerCase().includes(searchValue)
+        product.name.toLowerCase().includes(searchValue) &&
+        (categoryValue === '' || product.category === categoryValue)
     );
 }
 
@@ -151,17 +153,24 @@ document.getElementById('search-btn').addEventListener('click', () => {
 
 // Event listener for pressing Enter key in search input
 document.getElementById('search-input').addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') { // Kiểm tra nếu phím Enter được nhấn
+    if (event.key === 'Enter') {
         currentPage = 1;
         renderProducts();
         renderPagination();
     }
 });
 
+// Event listener for category filter change
+document.getElementById('category-filter').addEventListener('change', () => {
+    currentPage = 1;
+    renderProducts();
+    renderPagination();
+});
+
 // Event listener for clicking on the title to reset to all products
 document.getElementById('shop-title').addEventListener('click', () => {
-    // Reset tìm kiếm và phân trang về mặc định
     document.getElementById('search-input').value = '';
+    document.getElementById('category-filter').value = '';
     currentPage = 1;
     renderProducts();
     renderPagination();
