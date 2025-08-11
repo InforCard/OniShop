@@ -2,7 +2,6 @@ let products = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// Fetch products from JSON file
 async function fetchProducts() {
     try {
         const response = await fetch('products.json', { cache: 'no-store' });
@@ -10,7 +9,6 @@ async function fetchProducts() {
             throw new Error('Không thể tải file products.json');
         }
         products = await response.json();
-        // Đảo ngược mảng để hiển thị sản phẩm mới nhất (cuối mảng) ở đầu
         products = products.reverse();
         renderProducts();
         renderPagination();
@@ -24,7 +22,6 @@ function renderProducts() {
     productGrid.innerHTML = '';
     const filteredProducts = filterProducts();
 
-    // Pagination logic
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const paginatedProducts = filteredProducts.slice(start, end);
@@ -32,16 +29,19 @@ function renderProducts() {
     paginatedProducts.forEach(product => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
+
+        // Sử dụng trực tiếp link từ products.json (đã có shop_id, item_id, aff)
+        const deepLink = product.link;
+
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h5 class="productName">${product.name}</h5>
-            <a href="${product.link}" target="_blank" rel="noopener noreferrer">Đến Shopee</a>
+            <a href="${deepLink}" target="_blank" rel="noopener noreferrer">Đến Shopee</a>
         `;
         productGrid.appendChild(productCard);
     });
 }
 
-// Filter products based on search query and category
 function filterProducts() {
     const searchValue = document.getElementById('search-input').value.toLowerCase();
     const categoryValue = document.getElementById('category-filter').value;
@@ -51,16 +51,14 @@ function filterProducts() {
     );
 }
 
-// Render pagination buttons
 function renderPagination() {
     const paginationContainer = document.querySelector('.pagination');
     paginationContainer.innerHTML = '';
     const filteredProducts = filterProducts();
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-    if (totalPages <= 1) return; // Không cần hiển thị phân trang nếu chỉ có 1 trang
+    if (totalPages <= 1) return;
 
-    // Nút "prev" để quay về trang trước
     const prevButton = document.createElement('button');
     prevButton.textContent = '«';
     prevButton.disabled = currentPage === 1;
@@ -73,9 +71,7 @@ function renderPagination() {
     });
     paginationContainer.appendChild(prevButton);
 
-    const maxVisibleButtons = 3; // Số nút hiển thị giữa (ví dụ: 1 2 3 ... cuối)
-
-    // Hiển thị trang đầu tiên
+    const maxVisibleButtons = 3;
     const firstButton = document.createElement('button');
     firstButton.textContent = '1';
     firstButton.addEventListener('click', () => {
@@ -88,14 +84,12 @@ function renderPagination() {
     }
     paginationContainer.appendChild(firstButton);
 
-    // Hiển thị "..." nếu cần thiết
     if (currentPage > maxVisibleButtons + 1) {
         const dots = document.createElement('span');
         dots.textContent = '...';
         paginationContainer.appendChild(dots);
     }
 
-    // Hiển thị các nút giữa
     const startPage = Math.max(2, currentPage - 1);
     const endPage = Math.min(totalPages - 1, currentPage + 1);
 
@@ -113,14 +107,12 @@ function renderPagination() {
         paginationContainer.appendChild(button);
     }
 
-    // Hiển thị "..." nếu cần thiết trước trang cuối cùng
     if (currentPage < totalPages - maxVisibleButtons) {
         const dots = document.createElement('span');
         dots.textContent = '...';
         paginationContainer.appendChild(dots);
     }
 
-    // Hiển thị trang cuối cùng
     if (totalPages > 1) {
         const lastButton = document.createElement('button');
         lastButton.textContent = totalPages;
@@ -135,7 +127,6 @@ function renderPagination() {
         paginationContainer.appendChild(lastButton);
     }
 
-    // Nút "next" để sang trang tiếp theo
     const nextButton = document.createElement('button');
     nextButton.textContent = '»';
     nextButton.disabled = currentPage === totalPages;
@@ -149,14 +140,12 @@ function renderPagination() {
     paginationContainer.appendChild(nextButton);
 }
 
-// Event listener for search button click
 document.getElementById('search-btn').addEventListener('click', () => {
     currentPage = 1;
     renderProducts();
     renderPagination();
 });
 
-// Event listener for pressing Enter key in search input
 document.getElementById('search-input').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         currentPage = 1;
@@ -165,14 +154,12 @@ document.getElementById('search-input').addEventListener('keypress', (event) => 
     }
 });
 
-// Event listener for category filter change
 document.getElementById('category-filter').addEventListener('change', () => {
     currentPage = 1;
     renderProducts();
     renderPagination();
 });
 
-// Event listener for clicking on the title to reset to all products
 document.getElementById('shop-title').addEventListener('click', () => {
     document.getElementById('search-input').value = '';
     document.getElementById('category-filter').value = '';
@@ -181,11 +168,9 @@ document.getElementById('shop-title').addEventListener('click', () => {
     renderPagination();
 });
 
-// Event listener for refresh button
 document.getElementById('refresh-btn')?.addEventListener('click', () => {
     currentPage = 1;
     fetchProducts();
 });
 
-// Initial fetch and render
 fetchProducts();
