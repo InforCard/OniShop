@@ -35,7 +35,7 @@ function renderProducts() {
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h5 class="productName">${product.name}</h5>
-            <button onclick="window.open('${product.link}', '_blank')">Đến Shopee</button>
+            <a href="${product.link}" target="_blank" rel="noopener noreferrer">Đến Shopee</a>
         `;
         productGrid.appendChild(productCard);
     });
