@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OniSHop</title>
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OniSHop</title>
+        <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -145,29 +145,62 @@
 }
     </style>
 
-   
+    </head>
+    <body>
+        <header>
+            <!-- Popup cảnh báo -->
+            <div id="tiktok-warning" style="
+                display:none;
+                position:fixed;
+                top:0; left:0;
+                width:100%; height:100%;
+                background:rgba(0,0,0,0.8);
+                color:white;
+                z-index:9999;
+                text-align:center;
+                padding-top:100px;
+                font-family:Arial, sans-serif;
+                ">
+                <h2>⚠ Mở bằng trình duyệt ngoài</h2>
+                <p>Vui lòng mở trang này bằng Safari hoặc Chrome để tiếp tục mua
+                    hàng.</p>
+                <p>Trên TikTok, hãy nhấn <b>⋮</b> (góc trên bên phải) → <b>Mở
+                        bằng Safari/Chrome</b>.</p>
+                <button
+                    onclick="document.getElementById('tiktok-warning').style.display='none'"
+                    style="padding:10px 20px; font-size:16px; margin-top:20px; background:#ff5722; border:none; color:white; border-radius:5px;">
+                    Tôi đã hiểu
+                </button>
+            </div>
 
-</head>
-<body>
-    <header>
-        <h1 id="shop-title">OniSHop</h1>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
-            <select id="category-filter">
-                <option value="">Tất cả danh mục</option>
-                <option value="Quần">Quần</option>
-                <option value="Áo">Áo</option>
-                <option value="Váy">Váy</option>
-                <option value="Giày dép">Giày dép</option>
-                <option value="Phụ kiện">Phụ kiện</option>
-            </select>
-            <button id="search-btn">Tìm kiếm</button>
-        </div>
-    </header>
-    <main>
-        <div class="product-grid"></div>
-        <div class="pagination"></div>
-    </main>
-    <script src="script.js"></script>
-</body>
+            <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (ua.includes("TikTok")) {
+        document.getElementById("tiktok-warning").style.display = "block";
+    }
+});
+</script>
+
+            <h1 id="shop-title">OniSHop</h1>
+            <div class="search-container">
+                <input type="text" id="search-input"
+                    placeholder="Tìm kiếm sản phẩm...">
+                <select id="category-filter">
+                    <option value>Tất cả danh mục</option>
+                    <option value="Quần">Quần</option>
+                    <option value="Áo">Áo</option>
+                    <option value="Váy">Váy</option>
+                    <option value="Giày dép">Giày dép</option>
+                    <option value="Phụ kiện">Phụ kiện</option>
+                </select>
+                <button id="search-btn">Tìm kiếm</button>
+            </div>
+        </header>
+        <main>
+            <div class="product-grid"></div>
+            <div class="pagination"></div>
+        </main>
+        <script src="script.js"></script>
+    </body>
 </html>
