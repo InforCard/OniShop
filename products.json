@@ -257,5 +257,33 @@
         "image": "https://down-vn.img.susercontent.com/file/sg-11134201-7rdxd-ly0o823csodc8e@resize_w450_nl.webp",
         "link": "https://s.shopee.vn/7KeKHSAx7K",
         "category": "Phụ kiện"
+    },
+    {
+        "id": 38,
+        "name": "Váy Hai Dây Xòe In Hoa Xinh Xắn",
+        "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lqd5reyfzcgic9@resize_w900_nl.webp",
+        "link": "https://s.shopee.vn/60HJf2w6i8",
+        "category": "Váy"
+    },
+    {
+        "id": 39,
+        "name": "Áo thun Essen in Cao Su Màu Xám",
+        "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2bs9pbzzauqce@resize_w900_nl.webp",
+        "link": "https://s.shopee.vn/802O3R5mPM",
+        "category": "Áo"
+    },
+    {
+        "id": 40,
+        "name": "Sét Váy Maxi Áo Cúp Nguc Dây Yếm Gắn Hoa + Chân Váy Xoè Dáng Dài 2 Lớp",
+        "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lu3o8t62s7wx86@resize_w900_nl.webp",
+        "link": "https://s.shopee.vn/9znSRDZXuY",
+        "category": "Váy"
+    },
+    {
+        "id": 41,
+        "name": "Áo Khoác Hoodiezip In Chữ Form Rộng",
+        "image": "https://down-vn.img.susercontent.com/file/sg-11134201-7rd5w-m76ghqi19s894f@resize_w900_nl.webp",
+        "link": "https://s.shopee.vn/9znSRksSQ0",
+        "category": "Áo"
     }
 ]

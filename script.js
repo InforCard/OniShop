@@ -5,8 +5,13 @@ const itemsPerPage = 10;
 // Fetch products from JSON file
 async function fetchProducts() {
     try {
-        const response = await fetch('products.json');
+        const response = await fetch('products.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error('Không thể tải file products.json');
+        }
         products = await response.json();
+        // Đảo ngược mảng để hiển thị sản phẩm mới nhất (cuối mảng) ở đầu
+        products = products.reverse();
         renderProducts();
         renderPagination();
     } catch (error) {
@@ -174,6 +179,12 @@ document.getElementById('shop-title').addEventListener('click', () => {
     currentPage = 1;
     renderProducts();
     renderPagination();
+});
+
+// Event listener for refresh button
+document.getElementById('refresh-btn')?.addEventListener('click', () => {
+    currentPage = 1;
+    fetchProducts();
 });
 
 // Initial fetch and render

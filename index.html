@@ -108,7 +108,28 @@
         .pagination span {
             padding: 0.5rem;
         }
+
+        .productName {
+    display: -webkit-box;
+    display: box;
+    /* Hỗ trợ thêm cho trình duyệt không dùng WebKit */
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    /* Chuẩn CSS mới, hỗ trợ đa trình duyệt */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4em;
+    max-height: 2.8em;
+    /* = line-height * số dòng */
+    white-space: normal;
+    /* Đảm bảo văn bản xuống dòng đúng */
+}
     </style>
+
+   
+
 </head>
 <body>
     <header>
