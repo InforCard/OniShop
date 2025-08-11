@@ -148,37 +148,78 @@
     </head>
     <body>
         <header>
-            <!-- Popup cảnh báo -->
+            <!-- Popup cảnh báo (thay phần cũ bằng đoạn này) -->
             <div id="tiktok-warning" style="
-                display:none;
-                position:fixed;
-                top:0; left:0;
-                width:100%; height:100%;
-                background:rgba(0,0,0,0.8);
-                color:white;
-                z-index:9999;
-                text-align:center;
-                padding-top:100px;
-                font-family:Arial, sans-serif;
-                ">
+display:none;
+position:fixed;
+top:0; left:0;
+width:100%; height:100%;
+background:rgba(0,0,0,0.86);
+color:white;
+z-index:99999;
+text-align:center;
+padding-top:80px;
+font-family:Arial, sans-serif;
+">
                 <h2>⚠ Mở bằng trình duyệt ngoài</h2>
-                <p>Vui lòng mở trang này bằng Safari hoặc Chrome để tiếp tục mua
-                    hàng.</p>
-                <p>Trên TikTok, hãy nhấn <b>⋮</b> (góc trên bên phải) → <b>Mở
-                        bằng Safari/Chrome</b>.</p>
-                <button
-                    onclick="document.getElementById('tiktok-warning').style.display='none'"
-                    style="padding:10px 20px; font-size:16px; margin-top:20px; background:#ff5722; border:none; color:white; border-radius:5px;">
-                    Tôi đã hiểu
-                </button>
+                <p style="max-width:90%;margin:0.5rem auto;">
+                    Trang này đang được mở trong trình duyệt của TikTok. Để
+                    Shopee mở đúng app và ghi nhận hoa hồng,
+                    hãy mở trang này bằng Safari/Chrome.
+                </p>
+                <p style="max-width:90%;margin:0.5rem auto;">
+                    Trên TikTok: nhấn <b>⋮</b> (góc trên phải) → chọn <b>Mở bằng
+                        Safari/Chrome</b>.
+                </p>
+
+                <div style="margin-top:18px;">
+                    <button id="tiktok-ack"
+                        style="padding:10px 20px; font-size:16px; margin-right:8px; background:#ff5722; border:none; color:white; border-radius:5px; cursor:pointer;">
+                        Tôi đã hiểu
+                    </button>
+                    <button id="tiktok-instructions"
+                        style="padding:10px 20px; font-size:16px; background:#333; border:none; color:#fff; border-radius:5px; cursor:pointer;">
+                        Hiển thị hướng dẫn mở (hình)
+                    </button>
+                </div>
+
+                <!-- (Tuỳ chọn debug: hiện userAgent để bạn kiểm tra) -->
+                <p id="tiktok-ua"
+                    style="font-size:12px; color:#ddd; margin-top:16px; display:none; word-break:break-all;"></p>
             </div>
 
             <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    if (ua.includes("TikTok")) {
-        document.getElementById("tiktok-warning").style.display = "block";
-    }
+// Phát hiện TikTok (robust hơn)
+const ua = (navigator.userAgent || navigator.vendor || window.opera || "").toLowerCase();
+// bao gồm các tên/biệt danh: tiktok, musically, aweme, zhiliaoapp
+const isTikTok = /tiktok|musically|aweme|zhiliaoapp/i.test(ua);
+
+// Expose flag toàn cục để script.js có thể đọc (renderProducts sẽ kiểm tra)
+window.__IS_TIKTOK_INAPP = !!isTikTok;
+
+if (isTikTok) {
+    const overlay = document.getElementById('tiktok-warning');
+    overlay.style.display = 'block';
+
+    // Hiện userAgent nếu muốn debug (bật bằng cách đổi true)
+    const uaEl = document.getElementById('tiktok-ua');
+    uaEl.style.display = 'block';
+    uaEl.textContent = 'User-Agent: ' + navigator.userAgent;
+
+    // Nút "Tôi đã hiểu" cho phép người dùng tắt popup (vẫn giữ các link vô hiệu nếu muốn)
+    document.getElementById('tiktok-ack').addEventListener('click', () => {
+        overlay.style.display = 'none';
+        // nếu muốn cho phép click link sau khi người dùng xác nhận -> phục hồi links
+        window.__TIKTOK_ALLOW_LINKS = true;
+        if (typeof enableProductLinks === 'function') enableProductLinks();
+    });
+
+    // Nút hiện hướng dẫn mở bằng hình (bạn có thể thay bằng modal chứa ảnh)
+    document.getElementById('tiktok-instructions').addEventListener('click', () => {
+        alert('Hướng dẫn: Nhấn biểu tượng ⋮ (góc trên phải) → Chọn "Open in Browser" / "Mở bằng Safari/Chrome"');
+    });
+}
 });
 </script>
 
