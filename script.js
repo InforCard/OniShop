@@ -2,6 +2,7 @@ let products = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
+// Fetch products from JSON file
 async function fetchProducts() {
     try {
         const response = await fetch('products.json', { cache: 'no-store' });
@@ -9,6 +10,7 @@ async function fetchProducts() {
             throw new Error('Không thể tải file products.json');
         }
         products = await response.json();
+        // Đảo ngược mảng để hiển thị sản phẩm mới nhất (cuối mảng) ở đầu
         products = products.reverse();
         renderProducts();
         renderPagination();
@@ -30,18 +32,16 @@ function renderProducts() {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
-        // Sử dụng trực tiếp link từ products.json (đã có shop_id, item_id, aff)
-        const deepLink = product.link;
-
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h5 class="productName">${product.name}</h5>
-            <a href="${deepLink}" target="_blank" rel="noopener noreferrer">Đến Shopee</a>
+            <a href="${product.link}" target="_blank" rel="noopener noreferrer">Đến Shopee</a>
         `;
         productGrid.appendChild(productCard);
     });
 }
 
+// Filter products based on search query and category
 function filterProducts() {
     const searchValue = document.getElementById('search-input').value.toLowerCase();
     const categoryValue = document.getElementById('category-filter').value;
@@ -51,6 +51,7 @@ function filterProducts() {
     );
 }
 
+// Render pagination buttons
 function renderPagination() {
     const paginationContainer = document.querySelector('.pagination');
     paginationContainer.innerHTML = '';
@@ -72,6 +73,7 @@ function renderPagination() {
     paginationContainer.appendChild(prevButton);
 
     const maxVisibleButtons = 3;
+
     const firstButton = document.createElement('button');
     firstButton.textContent = '1';
     firstButton.addEventListener('click', () => {
@@ -140,12 +142,14 @@ function renderPagination() {
     paginationContainer.appendChild(nextButton);
 }
 
+// Event listener for search button click
 document.getElementById('search-btn').addEventListener('click', () => {
     currentPage = 1;
     renderProducts();
     renderPagination();
 });
 
+// Event listener for pressing Enter key in search input
 document.getElementById('search-input').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         currentPage = 1;
@@ -154,12 +158,14 @@ document.getElementById('search-input').addEventListener('keypress', (event) => 
     }
 });
 
+// Event listener for category filter change
 document.getElementById('category-filter').addEventListener('change', () => {
     currentPage = 1;
     renderProducts();
     renderPagination();
 });
 
+// Event listener for clicking on the title to reset to all products
 document.getElementById('shop-title').addEventListener('click', () => {
     document.getElementById('search-input').value = '';
     document.getElementById('category-filter').value = '';
@@ -168,9 +174,11 @@ document.getElementById('shop-title').addEventListener('click', () => {
     renderPagination();
 });
 
+// Event listener for refresh button
 document.getElementById('refresh-btn')?.addEventListener('click', () => {
     currentPage = 1;
     fetchProducts();
 });
 
+// Initial fetch and render
 fetchProducts();
